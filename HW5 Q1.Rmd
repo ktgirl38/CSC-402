@@ -1,0 +1,39 @@
+---
+title: "HW5 Q1"
+output: html_document
+date: "2026-03-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(maps)
+require(mapdata)
+library(ggplot2)
+library(ggrepel)
+library(dplyr)
+```
+
+```{r cars}
+state <- map_data("state")
+california <- state %>% filter(region=="california")
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+load('wind_turbines.rda')
+```
+
+```{r}
+wind_ca <- wind_turbines %>% filter(t_state=="CA")
+wind_ca
+```
+
+```{r}
+base <- ggplot() + geom_polygon(data = california, aes(x=long, y = lat, group = group)) +
+  coord_fixed(1.3)
+
+base+geom_point(data=wind_ca, aes(x = xlong, y = ylat), color="coral1")
+```
