@@ -1,0 +1,47 @@
+---
+title: "HW6 Q1"
+output:
+  pdf_document: default
+  html_document: default
+date: "2026-04-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+```
+
+## R Markdown
+
+
+```{r}
+load("~/School/DSC 402/house_prices.rda")
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r}
+ggplot(house_prices, aes(x=date, y=house_price_index)) +
+  geom_line() +
+  facet_wrap(~state, scale="free_x") +
+  scale_x_date(breaks = as.Date(c("1980-01-01", "2000-01-01", "2020-01-01")), date_labels = "%y")
+```
+
+
+```{r}
+house_reshaped <- house_prices %>% gather(Value, Measure, -state, -date, -house_price_perc)
+```
+
+```{r}
+ggplot(house_reshaped) +
+  geom_line(aes(x=date, y=Measure, color=Value)) +
+  facet_wrap(~state, scale="free_x") +
+  scale_x_date(breaks = as.Date(c("1980-01-01", "2000-01-01", "2020-01-01")), date_labels = "%y")
+```
+
+This is not a good graph to represent this information because the house price index has a much higher maximum than unemployment percentage,
+which makes changes in the unemployment percentage hard to see
